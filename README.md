@@ -1,9 +1,9 @@
 <h2 align="center">
-    ──「 ze ダ ᴍᴜsɪᴄ 」──
+    ──「 senzir ダ ᴍᴜsɪᴄ 」──
 </h2>
 
 <p align="center">
-  <img src="https://telegra.ph/file/dd6c46b812395a1b607e9.jpg">
+  <img src="https://telegra.ph/file/723228da7d6f71c929db4.jpg">
 </p>
 
 <p align="center">
