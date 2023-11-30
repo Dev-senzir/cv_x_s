@@ -10,9 +10,9 @@ lyricsgenius
 motor==3.0.0
 pillow
 psutil
-py-tgcalls
+py-tgcalls==0.8.6
 pykeyboard
-pyrogram
+pyrogram==1.4.16
 python-dotenv
 pyyaml
 requests
@@ -23,4 +23,3 @@ numpy
 yt-dlp
 youtube-search
 youtube-search-python
-telegraph
