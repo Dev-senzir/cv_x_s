@@ -1,9 +1,8 @@
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.enums import ChatType
+
 from config import adminlist
 from strings import get_string
 from AnonX import app
-from pyrogram import enums
 from AnonX.misc import SUDOERS
 from AnonX.utils.database import (get_authuser_names, get_cmode,
                                        get_lang, is_active_chat,
@@ -31,20 +30,6 @@ def AdminRightsCheck(mystic):
             _ = get_string(language)
         except:
             _ = get_string("en")
-        if message.sender_chat:
-            upl = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="ʜᴏᴡ ᴛᴏ ғɪx ᴛʜɪs ?",
-                            callback_data="AnonymousAdmin",
-                        ),
-                    ]
-                ]
-            )
-            return await message.reply_text(
-                _["general_4"], reply_markup=upl
-            )
         if message.command[0][0] == "c":
             chat_id = await get_cmode(message.chat.id)
             if chat_id is None:
@@ -62,11 +47,7 @@ def AdminRightsCheck(mystic):
             if message.from_user.id not in SUDOERS:
                 admins = adminlist.get(message.chat.id)
                 if not admins:
-                  chat_id = message.chat.id
-                  adminlist[chat_id] = []
-                  async for user in app.get_chat_members(chat_id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
-                       if user.privileges.can_manage_video_chats == True:
-                          adminlist[chat_id].append(user.user.id)
+                    return await message.reply_text(_["admin_18"])
                 else:
                     if message.from_user.id not in admins:
                         return await message.reply_text(_["admin_19"])
@@ -92,20 +73,6 @@ def AdminActual(mystic):
             _ = get_string(language)
         except:
             _ = get_string("en")
-        if message.sender_chat:
-            upl = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="ʜᴏᴡ ᴛᴏ ғɪx ᴛʜɪs ?",
-                            callback_data="AnonymousAdmin",
-                        ),
-                    ]
-                ]
-            )
-            return await message.reply_text(
-                _["general_4"], reply_markup=upl
-            )
         if message.from_user.id not in SUDOERS:
             try:
                 member = await app.get_chat_member(
@@ -113,7 +80,7 @@ def AdminActual(mystic):
                 )
             except:
                 return
-            if not member.privileges.can_manage_video_chats:
+            if not member.can_manage_voice_chats:
                 return await message.reply(_["general_5"])
         return await mystic(client, message, _)
 
@@ -133,7 +100,7 @@ def ActualAdminCB(mystic):
             _ = get_string(language)
         except:
             _ = get_string("en")
-        if CallbackQuery.message.chat.type == ChatType.PRIVATE:
+        if CallbackQuery.message.chat.type == "private":
             return await mystic(client, CallbackQuery, _)
         is_non_admin = await is_nonadmin_chat(
             CallbackQuery.message.chat.id
@@ -148,7 +115,7 @@ def ActualAdminCB(mystic):
                 return await CallbackQuery.answer(
                     _["general_5"], show_alert=True
                 )
-            if not a.privileges.can_manage_video_chats:
+            if not a.can_manage_voice_chats:
                 if CallbackQuery.from_user.id not in SUDOERS:
                     token = await int_to_alpha(
                         CallbackQuery.from_user.id
