@@ -248,7 +248,7 @@ async def skip(cli, message: Message, _, chat_id):
     & filters.channel
     & ~BANNED_USERS
 )
-@AdminRightsCheckk
+@AdminRightsCheck
 async def skip(cli, message: Message, _, chat_id):
     if not len(message.command) < 2:
         loop = await get_loop(chat_id)
